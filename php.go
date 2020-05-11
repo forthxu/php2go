@@ -729,7 +729,7 @@ func Quotemeta(str string) string {
 	var buf bytes.Buffer
 	for _, char := range str {
 		switch char {
-		case '.', '+', '\\', '(', '$', ')', '[', '^', ']', '*', '?':
+		case '.', '+', '\\', '(', '$', ')', '[', '^', ']', '*', '?', '|', '{', '}', '=', '/', ':', '<', '>', '\'', '"':
 			buf.WriteRune('\\')
 		}
 		buf.WriteRune(char)
@@ -1303,7 +1303,35 @@ func Pi() float64 {
 }
 
 // Max max()
-func Max(nums ...float64) float64 {
+func Max(nums ...int) int {
+	if len(nums) < 2 {
+		panic("nums: the nums length is less than 2")
+	}
+	max := nums[0]
+	for i := 1; i < len(nums); i++ {
+		if max < nums[i] {
+			max = nums[i]
+		}
+	}
+	return max
+}
+
+// Min min()
+func Min(nums ...int) int {
+	if len(nums) < 2 {
+		panic("nums: the nums length is less than 2")
+	}
+	min := nums[0]
+	for i := 1; i < len(nums); i++ {
+		if min > nums[i] {
+			min = nums[i]
+		}
+	}
+	return min
+}
+
+// Max max()
+func MaxFloat64(nums ...float64) float64 {
 	if len(nums) < 2 {
 		panic("nums: the nums length is less than 2")
 	}
@@ -1315,7 +1343,7 @@ func Max(nums ...float64) float64 {
 }
 
 // Min min()
-func Min(nums ...float64) float64 {
+func MinFloat64(nums ...float64) float64 {
 	if len(nums) < 2 {
 		panic("nums: the nums length is less than 2")
 	}
@@ -1900,9 +1928,9 @@ func Gethostbyaddr(ipAddress string) (string, error) {
 	return "", err
 }
 
-// IP2long ip2long()
+// Ip2long ip2long()
 // IPv4
-func IP2long(ipAddress string) uint32 {
+func Ip2long(ipAddress string) uint32 {
 	ip := net.ParseIP(ipAddress)
 	if ip == nil {
 		return 0
